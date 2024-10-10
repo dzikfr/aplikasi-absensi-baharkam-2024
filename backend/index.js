@@ -1,9 +1,10 @@
 const express = require('express');
 const {config} = require('dotenv');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const connectDb = require('./config/db.js');
 const userRouter = require('./routes/userRouter.js');
+const employeeRouter = require('./routes/employeeRouter.js');
+const attendanceRouter = require('./routes/attendanceRouter.js');
 
 //init express
 const app = express();
@@ -24,6 +25,8 @@ connectDb();
 
 //api
 app.use('/api', userRouter);
+app.use('/api', employeeRouter);
+app.use('/api', attendanceRouter);
 
 
 //port listen server app
