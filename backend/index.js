@@ -2,6 +2,7 @@ const express = require('express');
 const {config} = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const connectDb = require('./config/db.js');
 
 
 //init express
@@ -17,12 +18,8 @@ config();
 
 
 //connect db
-mongoose
-    .connect(process.env.MONGO_URI)
-    .then(console.log('mongodb connected'))
-    .catch((e)=>{
-        console.log('error: ', e)
-    })
+//./config/db.js
+connectDb();
 
 
 //port listen server app
