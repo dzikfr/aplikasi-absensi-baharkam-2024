@@ -75,32 +75,20 @@ const getEmployee = async (req, res) => {
 //port/api/employee/:id
 const updateEmployee = async (req, res) => {
     try {
-        if(
-            !req.body.nip ||
-            !req.body.name ||
-            !req.body.pangkat ||
-            !req.body.jabatan ||
-            !req.body.satuan
-        ){
-            return res.status(400).send({
-                message: 'required fields are missing'
-            })
-        }
-
         const updatedEmployee = await Employee.findByIdAndUpdate(
-            req.params.id,   
-            req.body,       
-            { new: true }
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true } // Validasi saat update
         );
     
         if (!updatedEmployee) {
             return res.status(404).send({ message: 'Employee not found' });
         }
     
-        return res.status(200).send({message: 'Employee updated', data: updatedEmployee});
-    
+        return res.status(200).send({ message: 'Employee updated', data: updatedEmployee });
+        
     } catch (error) {
-        console.log(error.message);
+        console.error(error);
         return res.status(500).send({ message: error.message });
     }
 };
