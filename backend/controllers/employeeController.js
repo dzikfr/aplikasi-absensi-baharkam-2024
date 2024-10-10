@@ -31,7 +31,7 @@ const createEmployee = async (req, res) => {
 
         const employee = await Employee.create(newEmployee);
 
-        return res.status(201).send(employee);
+        return res.status(201).send({message: "Employee created", status: 200, data: employee});
 
     } catch (error) {
         console.log(error.message);
@@ -45,7 +45,7 @@ const createEmployee = async (req, res) => {
 const getAllEmployee = async (req, res) => {
     try {
         const employees = await Employee.find();
-        return res.status(200).send(employees);
+        return res.status(200).send({message: 'Employees found', status: 200, data: employees});
 
     } catch (error) {
         console.log(error.message);
@@ -62,7 +62,7 @@ const getEmployee = async (req, res) => {
         if (!employee) {
             return res.status(404).send({ message: 'Employee not found' });
         }
-        return res.status(200).send({message: 'Employee found', data: employee});
+        return res.status(200).send({message: 'Employee found', status:200, data: employee});
 
     } catch (error) {
         console.log(error.message);
@@ -78,14 +78,14 @@ const updateEmployee = async (req, res) => {
         const updatedEmployee = await Employee.findByIdAndUpdate(
             req.params.id,
             req.body,
-            { new: true, runValidators: true } // Validasi saat update
+            { new: true, runValidators: true }
         );
     
         if (!updatedEmployee) {
             return res.status(404).send({ message: 'Employee not found' });
         }
     
-        return res.status(200).send({ message: 'Employee updated', data: updatedEmployee });
+        return res.status(200).send({ message: 'Employee updated', status: 200, data: updatedEmployee });
         
     } catch (error) {
         console.error(error);
@@ -102,7 +102,7 @@ const deleteEmployee = async (req, res) => {
         if (!deletedEmployee) {
             return res.status(404).send({ message: 'Employee not found' });
         }
-        res.status(200).send({ message: 'Employee deleted', data: deletedEmployee });
+        res.status(200).send({ message: 'Employee deleted', status: 200, data: deletedEmployee });
         
     } catch (error) {
         res.status(500).send({ message: error.message });
