@@ -3,7 +3,7 @@ const {config} = require('dotenv');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const connectDb = require('./config/db.js');
-
+const userRouter = require('./routes/userRouter.js');
 
 //init express
 const app = express();
@@ -20,6 +20,10 @@ config();
 //connect db
 //./config/db.js
 connectDb();
+
+
+//api
+app.use('/api', userRouter);
 
 
 //port listen server app
