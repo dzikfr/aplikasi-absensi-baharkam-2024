@@ -14,19 +14,19 @@ const EmployeeSchema = new mongoose.Schema({
     pangkat:{
         type: String,
         required: [true,'pangkat must be filled'],
-        enum: ['']
+        enum: ['test']
     },
 
     jabatan: {
         type: String,
         required: [true, 'jabatan must be filled'],
-        enum: ['']
+        enum: ['test']
     },
 
     satuan:{
         type: String,
         required: [true, 'satuan must be filled'],
-        enum: ['']
+        enum: ['test']
     }
 });
 

@@ -31,5 +31,5 @@ app.use('/api', attendanceRouter);
 
 //port listen server app
 app.listen(process.env.PORT, () => {
-    console.log(`Server berjalan pada port ${process.env.PORT}`);
+    console.log(`Server running on port: ${process.env.PORT}`);
 });
