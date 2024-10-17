@@ -1,4 +1,6 @@
 import React from "react";
+import {Link} from "react-router-dom";
+import Navbar from "../components/Navbar";
 
 const Home = () => {
   return (
@@ -18,7 +20,7 @@ const Home = () => {
               Kelola dan pantau kehadiran pegawai dengan cepat dan mudah, langsung dari
               perangkat manapun
             </p>
-            <button className="btn btn-primary">Get Started</button>
+            <Link to="/login" className="btn btn-primary">Get Started</Link>
           </div>
         </div>
       </div>
