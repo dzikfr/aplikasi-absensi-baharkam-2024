@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
@@ -34,18 +35,19 @@ const Login = () => {
                   required
                 />
                 <label className="label">
-                  <a href="#" className="label-text-alt link link-hover">
+                  <a href="/lupa-sandi" className="label-text-alt link link-hover">
                     Forgot password?
                   </a>
                 </label>
               </div>
               <div className="form-control mt-6">
-                <button className="btn btn-primary">Login</button>
+                <Link to={"/admin"} className="btn btn-primary">Login</Link>
               </div>
             </form>
           </div>
         </div>
       </div>
+
     </div>
   );
 };

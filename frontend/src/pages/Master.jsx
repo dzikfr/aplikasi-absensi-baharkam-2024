@@ -1,11 +1,22 @@
-import React from 'react'
+import React from "react";
+import Navbar from "../components/Navbar";
 
 const Master = () => {
   return (
     <div>
-      
-    </div>
-  )
-}
+      <Navbar/>
 
-export default Master
+      <div className="flex w-full flex-col lg:flex-row pt-20 px-10">
+        <div className="card bg-base-300 rounded-box grid h-32 flex-grow place-items-center">
+          kelola admin
+        </div>
+        <div className="divider lg:divider-horizontal"></div>
+        <div className="card bg-base-300 rounded-box grid h-32 flex-grow place-items-center">
+          lihat absensi
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Master;
