@@ -29,6 +29,12 @@ app.use('/api', employeeRouter);
 app.use('/api', attendanceRouter);
 
 
+//get no routes to asset
+app.use('/assets/data', (req, res, next) => {
+    res.status(403).send('Access Forbidden');
+});
+
+
 //port listen server app
 app.listen(process.env.PORT, () => {
     console.log(`Server running on port: ${process.env.PORT}`);

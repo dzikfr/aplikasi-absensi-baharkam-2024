@@ -1,5 +1,6 @@
 const Employee = require('../models/employeeModel');
-
+const fs = require('fs');
+const path = require('path');
 
 //required
 //nip(number), name(string), pangkat(enum), jabatan(enum), satuan(enum)
@@ -9,6 +10,7 @@ const Employee = require('../models/employeeModel');
 //port/api/employee/
 const createEmployee = async (req, res) => {
     try {
+        //checking data required
         if(
             !req.body.nip ||
             !req.body.name ||
@@ -21,6 +23,7 @@ const createEmployee = async (req, res) => {
             })
         }
 
+        //create new employee
         const newEmployee = {
             nip: req.body.nip,
             name: req.body.name,
@@ -29,8 +32,25 @@ const createEmployee = async (req, res) => {
             satuan: req.body.satuan
         }
 
+        //create employee
         const employee = await Employee.create(newEmployee);
 
+
+        //START WRITEFILE ON ASSETS
+        const {nip, name, pangkat, jabatan, satuan} = req.body;
+        const filePath = path.join(__dirname, '../assets/data/employee.json');
+
+        let employeesData = [];
+        if (fs.existsSync(filePath)) {
+        const data = fs.readFileSync(filePath, 'utf8');
+        employeesData = JSON.parse(data);
+        }
+        employeesData.push({ nip, name, pangkat, jabatan, satuan });
+        fs.writeFileSync(filePath, JSON.stringify(employeesData, null, 2), 'utf8');
+        //END WRITEFILE ON ASSETS
+
+
+        //send response
         return res.status(201).send({message: "Employee created", status: 200, data: employee});
 
     } catch (error) {
@@ -75,16 +95,43 @@ const getEmployee = async (req, res) => {
 //port/api/employee/:id
 const updateEmployee = async (req, res) => {
     try {
+        //update employee
         const updatedEmployee = await Employee.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true, runValidators: true }
         );
     
+        //send response if employee not found
         if (!updatedEmployee) {
             return res.status(404).send({ message: 'Employee not found' });
         }
     
+        //START UPDATE DATA ON ASSETS
+        const filePath = path.join(__dirname, '../assets/data/employee.json');
+        let employeesData = [];
+       
+        //check if file exists
+        if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf8');
+            employeesData = JSON.parse(data);
+        }   
+       
+        //find index
+        const employeeIndex = employeesData.findIndex(employee => employee.nip === updatedEmployee.nip);
+       
+        //update data
+        if (employeeIndex !== -1) {
+            employeesData[employeeIndex] = {
+                ...employeesData[employeeIndex],
+                ...req.body,
+            };
+        }
+       
+        fs.writeFileSync(filePath, JSON.stringify(employeesData, null, 2), 'utf8');
+        //END UPDATE DATA ON ASSETS
+
+        //send response
         return res.status(200).send({ message: 'Employee updated', status: 200, data: updatedEmployee });
         
     } catch (error) {
@@ -98,10 +145,29 @@ const updateEmployee = async (req, res) => {
 //port/api/employee/:id
 const deleteEmployee = async (req, res) => {
     try {
+        //delete employee
         const deletedEmployee = await Employee.findByIdAndDelete(req.params.id);
+
+        //send response if employee not found
         if (!deletedEmployee) {
             return res.status(404).send({ message: 'Employee not found' });
         }
+
+        //START DELETE DATA ON ASSETS.JSON
+        const filePath = path.join(__dirname, '../assets/data/employee.json');
+        let employeesData = [];
+         
+        if (fs.existsSync(filePath)) {
+            const data = fs.readFileSync(filePath, 'utf8');
+            employeesData = JSON.parse(data);
+        }
+        
+        employeesData = employeesData.filter(employee => employee.nip !== deletedEmployee.nip);
+        
+        fs.writeFileSync(filePath, JSON.stringify(employeesData, null, 2), 'utf8');
+        //END DELETE DATA ON ASSETS.JSON
+
+        //send response
         res.status(200).send({ message: 'Employee deleted', status: 200, data: deletedEmployee });
         
     } catch (error) {
