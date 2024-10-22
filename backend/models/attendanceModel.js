@@ -16,7 +16,10 @@ const AttendanceSchema = new mongoose.Schema({
     date: {
         type: Date,
         required: true,
+        default: Date.now,
     }
 });
+
+AttendanceSchema.index({ employee: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.model('Attendance', AttendanceSchema);
