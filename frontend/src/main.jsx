@@ -3,9 +3,10 @@ import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
-import Admin from "./pages/Admin.jsx";
-import Master from "./pages/Master.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import Master from "./pages/MasterDashboard.jsx";
 import "./App.css";
+import MasterDashboard from "./pages/MasterDashboard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,11 +19,11 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <Admin />,
+    element: <AdminDashboard/>,
   },
   {
     path: "/master",
-    element: <Master />,
+    element: <MasterDashboard />,
   },
 ]);
 

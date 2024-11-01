@@ -11,7 +11,7 @@ const Navbar = () => {
         </div>
         <div className="flex-none">
           <ChangeTheme />
-          <Link className="btn btn-outline" to={"/"}>Logout</Link>
+          <Link className="btn btn-outline mr-3" to={"/"}>Logout</Link>
         </div>
       </div>
     </div>
