@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const Admin = require('../models/adminModel');
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcryptjs');
@@ -8,8 +8,8 @@ const bcrypt = require('bcryptjs');
 
 
 //POST 
-//port/api/user/
-const createUser = async (req, res) => {
+//port/api/admin/
+const createAdmin = async (req, res) => {
     try {
         //checking data required
         if (!req.body.username || !req.body.password || !req.body.role) {
@@ -19,22 +19,20 @@ const createUser = async (req, res) => {
         }
 
         //create new user
-        const satuan = req.body.role === 'admin' ? req.body.satuan : undefined;
-        const newUser = {
+        const newAdmin = {
             username: req.body.username,
             password: req.body.password,
-            role: req.body.role,
-            satuan: satuan,
+            satuan: req.body.division,
         };
 
         //encrypt password
-        newUser.password = await hashPassword(newUser.password);
+        newAdmin.password = await hashPassword(newAdmin.password);
 
         //create user
-        const user = await User.create(newUser);
+        const user = await Admin.create(newAdmin);
 
         //START WRITEFILE ON ASSETS
-        const { username, password, role } = req.body;
+        const { username, password } = req.body;
         const filePath = path.join(__dirname, '../assets/data/user.json');
         let usersData = [];
 
@@ -44,20 +42,15 @@ const createUser = async (req, res) => {
             usersData = JSON.parse(data);
         }
 
-        //add satuan if role is admin
-        if (role === 'admin' && req.body.satuan) {
-            newUser.satuan = req.body.satuan;
-        }
-
         //push new user
-        usersData.push(newUser);
+        usersData.push(newAdmin);
 
         fs.writeFileSync(filePath, JSON.stringify(usersData, null, 2), 'utf8');
         //END WRITEFILE ON ASSETS
 
         //send response
         return res.status(201).send({
-            message: "User created",
+            message: "Admin created",
             status: 201,
             data: user
         });
@@ -72,11 +65,11 @@ const createUser = async (req, res) => {
 
 
 //GET
-//port/api/user/
-const getAllUser = async (req, res) => {
+//port/api/admin/
+const getAllAdmin = async (req, res) => {
     try {
-        const user = await User.find();
-        return res.status(200).send({message: 'Users found', status: 200, data: user});
+        const admin = await Admin.find();
+        return res.status(200).send({message: 'Admins found', status: 200, data: admin});
 
     } catch (error) {
         console.log(error.message);
@@ -86,14 +79,14 @@ const getAllUser = async (req, res) => {
 
 
 //GET
-//port/api/user/:id
-const getUser = async (req, res) => {
+//port/api/admin/:id
+const getAdmin = async (req, res) => {
     try {
-        const user = await User.findById(req.params.id);
-        if (!user) {
-            return res.status(404).send({ message: 'User not found' });
+        const admin = await Admin.findById(req.params.id);
+        if (!admin) {
+            return res.status(404).send({ message: 'Admin not found' });
         }
-        return res.status(200).send({message: 'User found', status:200, data: user});
+        return res.status(200).send({message: 'Admin found', status:200, data: admin});
 
     } catch (error) {
         console.log(error.message);
@@ -103,19 +96,19 @@ const getUser = async (req, res) => {
 
 
 //PUT
-//port/api/user/:id
-const updateUser = async (req, res) => {
+//port/api/admin/:id
+const updateAdmin = async (req, res) => {
     try {
-        //update user
-        const updatedUser = await User.findByIdAndUpdate(
+        //update admin
+        const updatedAdmin = await Admin.findByIdAndUpdate(
             req.params.id,
             req.body,
             { new: true, runValidators: true }
         );
     
-        //send response if user not found
-        if (!updatedUser) {
-            return res.status(404).send({ message: 'user not found' });
+        //send response if admin not found
+        if (!updatedAdmin) {
+            return res.status(404).send({ message: 'admin not found' });
         }
     
         //START UPDATE DATA ON ASSETS
@@ -129,7 +122,7 @@ const updateUser = async (req, res) => {
         }   
        
         //find index
-        const userIndex = usersData.findIndex(user => user.username === updateUser.username);
+        const userIndex = usersData.findIndex(user => user.username === updatedAdmin.username);
        
         //update data
         if (userIndex !== -1) {
@@ -143,7 +136,7 @@ const updateUser = async (req, res) => {
         //END UPDATE DATA ON ASSETS
 
         //send response
-        return res.status(200).send({ message: 'User updated', status: 200, data: updatedUser });
+        return res.status(200).send({ message: 'Admin updated', status: 200, data: updatedAdmin });
         
     } catch (error) {
         console.error(error);
@@ -153,15 +146,15 @@ const updateUser = async (req, res) => {
 
 
 //DELETE
-//port/api/user/:id
-const deleteUser = async (req, res) => {
+//port/api/admin/:id
+const deleteAdmin = async (req, res) => {
     try {
         //delete user
-        const deletedUser = await User.findByIdAndDelete(req.params.id);
+        const deletedAdmin = await Admin.findByIdAndDelete(req.params.id);
 
         //send response if user not found
-        if (!deletedUser) {
-            return res.status(404).send({ message: 'User not found' });
+        if (!deletedAdmin) {
+            return res.status(404).send({ message: 'Admin not found' });
         }
 
         //START DELETE DATA ON ASSETS.JSON
@@ -173,13 +166,13 @@ const deleteUser = async (req, res) => {
             usersData = JSON.parse(data);
         }
          
-        usersData = usersData.filter(user => user.username !== deletedUser.username);
+        usersData = usersData.filter(user => user.username !== deletedAdmin.username);
          
         fs.writeFileSync(filePath, JSON.stringify(usersData, null, 2), 'utf8');
         //END DELETE DATA ON ASSETS.JSON
 
         //send response
-        res.status(200).send({ message: 'User deleted', status: 200, data: deletedUser });
+        res.status(200).send({ message: 'Admin deleted', status: 200, data: deletedAdmin });
         
     } catch (error) {
         res.status(500).send({ message: error.message });
@@ -194,9 +187,9 @@ const hashPassword = async (password) => {
 
 
 module.exports = {
-    createUser,
-    getAllUser,
-    getUser,
-    updateUser,
-    deleteUser
+    createAdmin,
+    getAllAdmin,
+    getAdmin,
+    updateAdmin,
+    deleteAdmin
 }

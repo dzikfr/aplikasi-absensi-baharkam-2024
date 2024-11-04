@@ -2,7 +2,7 @@ const express = require('express');
 const {config} = require('dotenv');
 const cors = require('cors');
 const connectDb = require('./config/db.js');
-const userRouter = require('./routes/userRouter.js');
+const adminRouter = require('./routes/adminRouter.js');
 const employeeRouter = require('./routes/employeeRouter.js');
 const attendanceRouter = require('./routes/attendanceRouter.js');
 
@@ -24,7 +24,7 @@ connectDb();
 
 
 //api
-app.use('/api', userRouter);
+app.use('/api', adminRouter);
 app.use('/api', employeeRouter);
 app.use('/api', attendanceRouter);
 
