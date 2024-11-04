@@ -24,23 +24,9 @@ const EmployeeSchema = new mongoose.Schema({
   },
 
   satuan: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Division",
     required: [true, "satuan must be filled"],
-    enum: [
-      "urkeu",
-      "taud",
-      "urtu rorenmin",
-      "urtu robinopsnal",
-      "bagbinlat",
-      "bagkerma",
-      "baganev",
-      "bagren",
-      "bagsumda",
-      "bagbinfung",
-      "korpolairud",
-      "korbinmas",
-      "korsabhara",
-    ],
   },
 });
 
