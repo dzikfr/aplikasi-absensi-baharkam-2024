@@ -3,7 +3,7 @@ const router = express.Router();
 const { 
     registerAdmin, 
     loginAdmin, 
-    getAllAdmin, 
+    getAllAdmins, 
     getAdminById, 
     updateAdmin, 
     deleteAdmin 
@@ -11,7 +11,7 @@ const {
 
 router.post("/register", registerAdmin);
 router.post("/login", loginAdmin);
-router.get("/", getAllAdmin);
+router.get("/", getAllAdmins);
 router.get("/:id", getAdminById);
 router.put("/:id", updateAdmin);
 router.delete("/:id", deleteAdmin);
