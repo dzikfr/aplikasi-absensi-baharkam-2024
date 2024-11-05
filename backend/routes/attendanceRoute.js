@@ -1,14 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const { 
-    getAttendance, 
+    getAllAttendances, 
     getAttendanceById, 
     createAttendance, 
     updateAttendance, 
     deleteAttendance 
 } = require("../controllers/attendanceController");
 
-router.get("/", getAttendance);
+router.get("/", getAllAttendances);
 router.get("/:id", getAttendanceById);
 router.post("/", createAttendance);
 router.put("/:id", updateAttendance);
