@@ -1,4 +1,4 @@
-const Division = require('../models/Division');
+const Division = require('../models/divisionModel');
 const fs = require('fs');
 const path = require('path');
 

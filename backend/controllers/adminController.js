@@ -38,7 +38,7 @@ const loginAdmin = async (req, res) => {
 
 const getAllAdmins = async (req, res) => {
     try {
-        const admins = await Admin.find();
+        const admins = await Admin.find().populate("admin_division");
         res.status(200).json(admins);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -47,7 +47,7 @@ const getAllAdmins = async (req, res) => {
 
 const getAdminById = async (req, res) => {
     try {
-        const admin = await Admin.findById(req.params.id);
+        const admin = await Admin.findById(req.params.id).populate("admin_division");
         if (!admin) {
             return res.status(404).json({ message: "Admin not found" });
         }
