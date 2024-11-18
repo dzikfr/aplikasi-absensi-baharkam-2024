@@ -1,4 +1,3 @@
-// TableRead.js
 import React from "react";
 
 const TableRead = ({ columns, data, onEdit, onDelete }) => {

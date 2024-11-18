@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import EditForm from "../EditForm"; 
 
 const EditEmployee = () => {
   const [nip, setNip] = useState("");
@@ -69,29 +70,11 @@ const EditEmployee = () => {
         onSubmit={handleSubmit}
         className="rounded-lg bg-gray-800 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">
-          Edit Pegawai
-        </h2>
-        <div className="form-control mb-4">
-          <label className="label text-white">NIP:</label>
-          <input
-            type="text"
-            value={nip}
-            onChange={(e) => setNip(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-        <div className="form-control mb-4">
-          <label className="label text-white">Nama:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
+        <h2 className="text-2xl font-bold mb-6 text-center text-white">Edit Pegawai</h2>
+        
+        <EditForm label="NIP" value={nip} onChange={(e) => setNip(e.target.value)} required />
+        <EditForm label="Nama" value={name} onChange={(e) => setName(e.target.value)} required />
+        
         <div className="form-control mb-4">
           <label className="label text-white">Divisi:</label>
           <select
@@ -108,30 +91,12 @@ const EditEmployee = () => {
             ))}
           </select>
         </div>
-        <div className="form-control mb-4">
-          <label className="label text-white">Pangkat:</label>
-          <input
-            type="text"
-            value={rank}
-            onChange={(e) => setRank(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
-        <div className="form-control mb-4">
-          <label className="label text-white">Jabatan:</label>
-          <input
-            type="text"
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
-            className="input input-bordered w-full"
-            required
-          />
-        </div>
+
+        <EditForm label="Pangkat" value={rank} onChange={(e) => setRank(e.target.value)} required />
+        <EditForm label="Jabatan" value={position} onChange={(e) => setPosition(e.target.value)} required />
+
         <div className="form-control mt-6">
-          <button type="submit" className="btn btn-primary w-full">
-            Simpan
-          </button>
+          <button type="submit" className="btn btn-primary w-full">Simpan</button>
         </div>
       </form>
     </div>
