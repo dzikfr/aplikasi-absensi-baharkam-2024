@@ -7,6 +7,8 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import Master from "./pages/MasterDashboard.jsx";
 import "./App.css";
 import MasterDashboard from "./pages/MasterDashboard.jsx";
+import CreateEmployee from "./components/Admin/CreateEmployee";
+import EditEmployee from "./components/Admin/EditEmployee";
 
 const router = createBrowserRouter([
   {
@@ -20,6 +22,14 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminDashboard/>,
+  },
+  {
+    path: "/admin/create/employee",
+    element: <CreateEmployee/>,
+  },
+  {
+    path: "/admin/employee/edit/:id",
+    element: <EditEmployee/>,
   },
   {
     path: "/master",

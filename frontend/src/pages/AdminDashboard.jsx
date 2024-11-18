@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
-import KelolaPegawai from "../components/KelolaPegawai";
+import ReadEmployee from "../components/Admin/ReadEmployee";
 
 const Sidebar = ({ setActiveComponent }) => {
   return (
@@ -38,7 +38,7 @@ const Sidebar = ({ setActiveComponent }) => {
 const MainContent = ({ activeComponent }) => {
   switch (activeComponent) {
     case "pegawai":
-      return <KelolaPegawai/>;
+      return <ReadEmployee/>;
     case "kehadiran":
       return <ReadCategory/>;
     case "cuti":
