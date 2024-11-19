@@ -45,7 +45,7 @@ const ReadDivision = () => {
     if (window.confirm("Ingin menghapus divisi?")) {
       try {
         const response = await axios.delete(
-          `${import.meta.env.VITE_BACKEND_PORT}/api/divisi/${id}`
+          `${import.meta.env.VITE_BACKEND_PORT}/api/division/${id}`
         );
 
         if (response.status === 200) {

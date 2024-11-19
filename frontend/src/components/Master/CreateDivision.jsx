@@ -35,6 +35,8 @@ const CreateDivison = () => {
         division_id: "",
         division_name: "",
       });
+
+      navigate("/master");
     } catch (error) {
       console.error("Terjadi kesalahan saat mengirim data:", error);
     }

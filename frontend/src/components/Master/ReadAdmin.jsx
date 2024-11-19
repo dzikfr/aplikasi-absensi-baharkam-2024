@@ -93,7 +93,7 @@ const ReadAdmin = () => {
   return (
     <div className="mx-10">
       <h1 className="text-3xl font-bold text-center mb-6 pt-3">Admin</h1>
-      <Link to={"/master/create/division"} className="btn">
+      <Link to={"/master/create/admin"} className="btn">
         Add +
       </Link>
 
