@@ -40,8 +40,10 @@ const ReadEmployee = () => {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_PORT}/api/employee`
         );
+        console.log(response.data);
         setEmployees(response.data);
       } catch (err) {
+        console.error(err);
         setError(err.message);
       }
     };
