@@ -6,7 +6,7 @@ import SearchBar from "../SearchBar";
 import Pagination from "../Pagination";
 
 const ReadAdmin = () => {
-  const [divisions, setDivisions] = useState([]);
+  const [admins, setAdmins] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,59 +14,60 @@ const ReadAdmin = () => {
   const navigate = useNavigate();
 
   const columns = [
-    { header: "ID Divisi", accessor: (item) => item.division_id },
-    { header: "Nama Divisi", accessor: (item) => item.division_name },
+    { header: "Admin Username", accessor: (item) => item.admin_username },
+    { header: "Admin Password", accessor: (item) => item.admin_password },
+    { header: "Divisi Admin", accessor: (item) => item.admin_division.division_name },
   ];
 
-  const searchableFields = ["division_id", "division_name"];
+  const searchableFields = ["admin_username", "admin_division.division_name"];
 
-  const labels = ["ID Divisi", "Nama Divisi"];
+  const labels = ["admin username", "divisi admin"];
 
   useEffect(() => {
-    const getDivisions = async () => {
+    const getAdmins = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_BACKEND_PORT}/api/division`
+          `${import.meta.env.VITE_BACKEND_PORT}/api/admin`
         );
-        setDivisions(response.data);
+        setAdmins(response.data);
       } catch (err) {
         setError(err.message);
       }
     };
 
-    getDivisions();
+    getAdmins();
   }, []);
 
   const handleEdit = (id) => {
-    navigate(`/admin/division/edit/${id}`);
+    navigate(`/master/admin/edit/${id}`);
   };
 
   const handleDelete = async (id) => {
-    if (window.confirm("Ingin menghapus divisi?")) {
+    if (window.confirm("Ingin menghapus admin?")) {
       try {
         const response = await axios.delete(
-          `${import.meta.env.VITE_BACKEND_PORT}/api/divisi/${id}`
+          `${import.meta.env.VITE_BACKEND_PORT}/api/admin/${id}`
         );
 
         if (response.status === 200) {
-          setDivisions((prev) =>
-            prev.filter((division) => division._id !== id)
+          setAdmins((prev) =>
+            prev.filter((admin) => admin._id !== id)
           );
-          alert("Divisi telah dihapus.");
+          alert("Admin telah dihapus.");
         } else {
-          alert("Gagal menghapus divisi.");
+          alert("Gagal menghapus admin.");
         }
       } catch (err) {
         console.error(err);
-        alert("Terjadi kesalahan saat menghapus divisi.");
+        alert("Terjadi kesalahan saat menghapus admin.");
       }
     }
   };
 
-  const filteredDivisions = Array.isArray(divisions)
-    ? divisions.filter((divisi) => {
+  const filteredAdmins = Array.isArray(admins)
+    ? admins.filter((admin) => {
         return searchableFields.some((field) => {
-          const fieldValue = divisi[field]?.toString().toLowerCase() || "";
+          const fieldValue = admin[field]?.toString().toLowerCase() || "";
           return fieldValue.includes(searchTerm.toLowerCase());
         });
       })
@@ -74,12 +75,12 @@ const ReadAdmin = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredDivisions.slice(
+  const currentItems = filteredAdmins.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
 
-  const totalPages = Math.ceil(filteredDivisions.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredAdmins.length / itemsPerPage);
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -91,7 +92,7 @@ const ReadAdmin = () => {
 
   return (
     <div className="mx-10">
-      <h1 className="text-3xl font-bold text-center mb-6 pt-3">Pegawai</h1>
+      <h1 className="text-3xl font-bold text-center mb-6 pt-3">Admin</h1>
       <Link to={"/master/create/division"} className="btn">
         Add +
       </Link>

@@ -20,7 +20,7 @@ const ReadDivision = () => {
 
   const searchableFields = ["division_id", "division_name"];
 
-  const labels = ["ID Divisi", "Nama Divisi"];
+  const labels = ["ID divisi", "nama divisi"];
 
   useEffect(() => {
     const getDivisions = async () => {
@@ -38,7 +38,7 @@ const ReadDivision = () => {
   }, []);
 
   const handleEdit = (id) => {
-    navigate(`/admin/division/edit/${id}`);
+    navigate(`/master/division/edit/${id}`);
   };
 
   const handleDelete = async (id) => {
@@ -91,7 +91,7 @@ const ReadDivision = () => {
 
   return (
     <div className="mx-10">
-      <h1 className="text-3xl font-bold text-center mb-6 pt-3">Pegawai</h1>
+      <h1 className="text-3xl font-bold text-center mb-6 pt-3">Divisi</h1>
       <Link to={"/master/create/division"} className="btn">
         Add +
       </Link>
