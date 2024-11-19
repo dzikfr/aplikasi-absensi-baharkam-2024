@@ -7,8 +7,7 @@ const path = require("path");
 const createAttendance = async (req, res) => {
     try {
         const { date, employee_id, status } = req.body;
-        const newAttendance = new Attendance({ date, employee_id, status });
-        const attendance = await Attendance.create(newAttendance);
+        const attendance = await Attendance.create({ date, employee_id, status });
         res.status(201).json(attendance);
     } catch (error) {
         res.status(400).json({ message: error.message });

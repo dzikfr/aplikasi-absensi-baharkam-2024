@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import ReadEmployee from "../components/Admin/ReadEmployee";
+import ReadAttendance from "../components/Admin/ReadAttendance";
 
 const Sidebar = ({ setActiveComponent }) => {
   return (
@@ -40,7 +41,7 @@ const MainContent = ({ activeComponent }) => {
     case "pegawai":
       return <ReadEmployee/>;
     case "kehadiran":
-      return <ReadCategory/>;
+      return <ReadAttendance/>;
     case "cuti":
       return <ReadOrder/>;
     case "cetak":

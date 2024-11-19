@@ -5,7 +5,7 @@ import TableRead from "../TableRead";
 import SearchBar from "../SearchBar";
 import Pagination from "../Pagination";
 
-const ReadAdmin = () => {
+const ReadDivision = () => {
   const [divisions, setDivisions] = useState([]);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -116,4 +116,4 @@ const ReadAdmin = () => {
   );
 };
 
-export default ReadAdmin;
+export default ReadDivision;
