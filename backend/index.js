@@ -7,7 +7,10 @@ const connectDb = require('./config/db.js');
 const app = express();
 
 //middlewares
-app.use(cors());
+app.use(cors({
+    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  }));
 app.use(express.json());
 
 
