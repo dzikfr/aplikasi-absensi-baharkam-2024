@@ -12,6 +12,7 @@ import CreateDivision from "./components/Master/CreateDivision";
 import CreateAdmin from "./components/Master/CreateAdmin";
 import EditEmployee from "./components/Admin/EditEmployee";
 import EditDivision from "./components/Master/EditDivision";
+import AttendanceEmployee from "./pages/AttendanceEmployee.jsx";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
   {
     path: "/master",
     element: <MasterDashboard />,
+  },
+  {
+    path: "/admin/attendance",
+    element: <AttendanceEmployee/>,
   },
 ]);
 
