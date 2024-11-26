@@ -25,12 +25,6 @@ const Sidebar = ({ setActiveComponent }) => {
         >
           Kelola Cuti Pegawai
         </li>
-        <li
-          onClick={() => setActiveComponent("cetak")}
-          className="p-4 hover:bg-gray-200 cursor-pointer"
-        >
-          Cetak
-        </li>
       </ul>
     </div>
   );
@@ -44,8 +38,6 @@ const MainContent = ({ activeComponent }) => {
       return <ReadAttendance/>;
     case "cuti":
       return <ReadOrder/>;
-    case "cetak":
-      return <ReadUser/>;
     default:
       return <div className="p-4">Select a menu</div>;
   }

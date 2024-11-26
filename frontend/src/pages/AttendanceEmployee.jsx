@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import * as XLSX from "xlsx";
+import Navbar from "../components/Navbar";
 
 const AttendanceEmployee = () => {
   const [employees, setEmployees] = useState([]);
@@ -172,85 +174,139 @@ const AttendanceEmployee = () => {
     doc.save("attendance_report.pdf");
   };
 
+  const downloadExcel = () => {
+    const tableData = employees.map((employee) => {
+      let presentDays = 0;
+      let sickDays = 0;
+      let leaveDays = 0;
+      let alphaDays = 0;
+
+      Array.from({ length: currentDay }).forEach((_, index) => {
+        const day = index + 1;
+        const status = attendanceData[employee._id]?.[day] || "Alpha";
+
+        if (status === "Present") presentDays++;
+        else if (status === "Sick") sickDays++;
+        else if (status === "Leave") leaveDays++;
+        else if (status === "Alpha") alphaDays++;
+      });
+
+      const attendancePercentage = ((presentDays / currentDay) * 100).toFixed(
+        0
+      );
+
+      return {
+        Nama: employee.employee_name,
+        Hadir: presentDays,
+        Sakit: sickDays,
+        Izin: leaveDays,
+        Alpha: alphaDays,
+        "Persentase Kehadiran": `${attendancePercentage}%`,
+      };
+    });
+
+    // Membuat workbook dan worksheet
+    const ws = XLSX.utils.json_to_sheet(tableData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Kehadiran");
+
+    // Mengunduh file Excel
+    XLSX.writeFile(wb, "attendance_report.xlsx");
+  };
+
   if (error) {
     return <p className="text-red-500">Error: {error}</p>;
   }
 
   return (
     <div className="overflow-x-auto">
-      <h1 className="text-3xl font-bold mb-4">Tabel Absensi</h1>
-      <button className="btn btn-primary mt-4" onClick={saveAttendance}>
-        Perbarui
-      </button>
-      <button className="btn btn-success mt-4 ml-4" onClick={downloadPDF}>
-        Unduh PDF
-      </button>
-      <table className="table w-full border border-base-300">
-        <thead className="bg-base-200 sticky top-0 text-center">
-          <tr>
-            <th className="bg-base-300 sticky left-0 z-10">Nama</th>
-            {Array.from({ length: currentDay }).map((_, index) => (
-              <th key={index + 1}>{index + 1}</th>
-            ))}
-            <th className="bg-base-300">Persentase Kehadiran</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => {
-            let presentDays = 0;
+      <div className="mb-4">
+        <Navbar />
+      </div>
+      <div className="flex gap-4 p-4">
+        <button className="btn btn-primary" onClick={saveAttendance}>
+          Perbarui
+        </button>
+        <button className="btn btn-success" onClick={downloadPDF}>
+          Unduh PDF
+        </button>
+        <button className="btn btn-info" onClick={downloadExcel}>
+          Unduh Excel
+        </button>
+      </div>
+      <div className="overflow-x-auto mt-4">
+        <table className="table border border-base-300 w-full">
+          <thead className="bg-base-200 sticky top-0 text-center">
+            <tr>
+              <th className="bg-base-300 sticky left-0 z-10">Nama</th>
+              {Array.from({ length: currentDay }).map((_, index) => (
+                <th key={index + 1}>{index + 1}</th>
+              ))}
+              <th className="bg-base-300">Persentase Kehadiran</th>
+            </tr>
+          </thead>
+          <tbody>
+            {employees.map((employee) => {
+              let presentDays = 0;
 
-            return (
-              <tr key={employee._id}>
-                <td className="bg-base-100 sticky left-0 z-10">
-                  {employee.employee_name}
-                </td>
-                {Array.from({ length: currentDay }).map((_, index) => {
-                  const day = index + 1;
-                  const status = attendanceData[employee._id]?.[day] || "Alpha";
+              return (
+                <tr key={employee._id}>
+                  <td className="bg-base-100 sticky left-0">
+                    {employee.employee_name}
+                  </td>
+                  {Array.from({ length: currentDay }).map((_, index) => {
+                    const day = index + 1;
+                    const status =
+                      attendanceData[employee._id]?.[day] || "Alpha";
 
-                  if (status === "Present") presentDays++;
+                    if (status === "Present") presentDays++;
 
-                  const isDateInThePast = day <= currentDate.getDate();
+                    const isDateInThePast = day <= currentDate.getDate();
 
-                  return (
-                    <td key={day} className="text-center">
-                      <select
-                        className={`select select-bordered w-full ${
-                          status === "Present"
-                            ? "bg-green-500"
-                            : status === "Sick"
-                            ? "bg-yellow-300"
-                            : status === "Leave"
-                            ? "bg-blue-500"
-                            : "bg-red-900"
-                        }`}
-                        style={{ minWidth: "120px", color: "white" }}
-                        value={status}
-                        onChange={(e) =>
-                          handleStatusChange(employee._id, e.target.value, day)
-                        }
-                        disabled={!isDateInThePast}
-                      >
-                        <option value="Present">Hadir</option>
-                        <option value="Sick">Sakit</option>
-                        <option value="Leave">Izin</option>
-                        <option value="Alpha">Alpha</option>
-                      </select>
-                    </td>
-                  );
-                })}
-                <td className="text-center">
-                  {(() => {
-                    const attendancePercentage =
-                      (presentDays / currentDay) * 100;
-                    return `${attendancePercentage.toFixed(0)}%`;
-                  })()}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                    return (
+                      <td key={day} className="text-center">
+                        <select
+                          className={`select select-bordered w-full ${
+                            status === "Present"
+                              ? "bg-green-500"
+                              : status === "Sick"
+                              ? "bg-yellow-300"
+                              : status === "Leave"
+                              ? "bg-blue-500"
+                              : "bg-red-900"
+                          }`}
+                          style={{ minWidth: "120px", color: "white" }}
+                          value={status}
+                          onChange={(e) =>
+                            handleStatusChange(
+                              employee._id,
+                              e.target.value,
+                              day
+                            )
+                          }
+                          disabled={!isDateInThePast}
+                        >
+                          <option value="Present">Hadir</option>
+                          <option value="Sick">Sakit</option>
+                          <option value="Leave">Izin</option>
+                          <option value="Alpha">Alpha</option>
+                        </select>
+                      </td>
+                    );
+                  })}
+                  <td className="text-center">
+                    {(() => {
+                      const attendancePercentage =
+                        (presentDays / currentDay) * 100;
+                      return `${attendancePercentage.toFixed(0)}%`;
+                    })()}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

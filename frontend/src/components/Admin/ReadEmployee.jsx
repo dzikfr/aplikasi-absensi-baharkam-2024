@@ -13,6 +13,9 @@ const ReadEmployee = () => {
   const [itemsPerPage] = useState(10);
   const navigate = useNavigate();
 
+  // Ambil division_name dari localStorage
+  const userDivision = localStorage.getItem("division_name");
+
   const columns = [
     { header: "NIP", accessor: (item) => item.employee_nrp },
     { header: "Nama", accessor: (item) => item.employee_name },
@@ -41,7 +44,14 @@ const ReadEmployee = () => {
           `${import.meta.env.VITE_BACKEND_PORT}/api/employee`
         );
         console.log(response.data);
-        setEmployees(response.data);
+
+        // Filter data berdasarkan division_name
+        const filteredEmployees = response.data.filter(
+          (employee) =>
+            employee.employee_division?.division_name === userDivision
+        );
+
+        setEmployees(filteredEmployees);
       } catch (err) {
         console.error(err);
         setError(err.message);
@@ -49,7 +59,7 @@ const ReadEmployee = () => {
     };
 
     getEmployees();
-  }, []);
+  }, [userDivision]);
 
   const handleEdit = (id) => {
     navigate(`/admin/employee/edit/${id}`);
