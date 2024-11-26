@@ -11,7 +11,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/auth/admin/login", {
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_PORT}/auth/admin/login`, {
         admin_username: adminUsername,
         admin_password: adminPassword,
       });
