@@ -17,7 +17,6 @@ const AttendanceEmployee = () => {
     0
   ).getDate();
 
-  // Load division_name from localStorage
   const divisionName = localStorage.getItem("division_name");
 
   useEffect(() => {
@@ -115,7 +114,7 @@ const AttendanceEmployee = () => {
   const fetchAllAttendanceData = async () => {
     try {
       const year = new Date().getFullYear();
-      const month = new Date().getMonth() + 1; // Bulan 1-12
+      const month = new Date().getMonth() + 1;
       for (const employee of employees) {
         await fetchAttendanceData(employee._id, year, month);
       }
@@ -126,27 +125,46 @@ const AttendanceEmployee = () => {
 
   const downloadPDF = () => {
     const doc = new jsPDF();
-
+  
+    // Tanggal Cetak
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+    });
+  
+    // Nama Bulan Tabel
+    const tableMonth = currentDate.toLocaleDateString("id-ID", {
+      month: "long",
+      year: "numeric",
+    });
+  
+    // Tambahkan Header atau Informasi Tanggal Cetak
+    doc.setFontSize(12);
+    doc.text(`Laporan Kehadiran`, 14, 10); // Judul
+    doc.text(`Bulan: ${tableMonth}`, 14, 20); // Bulan tabel
+    doc.text(`Tanggal Cetak: ${formattedDate}`, 14, 30); // Tanggal cetak
+  
+    // Data Tabel
     const tableData = employees.map((employee) => {
       let presentDays = 0;
       let sickDays = 0;
       let leaveDays = 0;
       let alphaDays = 0;
-
+  
       Array.from({ length: currentDay }).forEach((_, index) => {
         const day = index + 1;
         const status = attendanceData[employee._id]?.[day] || "Alpha";
-
+  
         if (status === "Present") presentDays++;
         else if (status === "Sick") sickDays++;
         else if (status === "Leave") leaveDays++;
         else if (status === "Alpha") alphaDays++;
       });
-
-      const attendancePercentage = ((presentDays / currentDay) * 100).toFixed(
-        0
-      );
-
+  
+      const attendancePercentage = ((presentDays / currentDay) * 100).toFixed(0);
+  
       return [
         employee.employee_name,
         presentDays,
@@ -156,8 +174,10 @@ const AttendanceEmployee = () => {
         `${attendancePercentage}%`,
       ];
     });
-
+  
+    // Tambahkan Tabel
     doc.autoTable({
+      startY: 40, // Mulai setelah header
       head: [
         [
           "Nama",
@@ -170,9 +190,11 @@ const AttendanceEmployee = () => {
       ],
       body: tableData,
     });
-
-    doc.save("attendance_report.pdf");
+  
+    // Simpan PDF
+    doc.save(`attendance_report_${tableMonth}.pdf`);
   };
+  
 
   const downloadExcel = () => {
     const tableData = employees.map((employee) => {
@@ -205,12 +227,10 @@ const AttendanceEmployee = () => {
       };
     });
 
-    // Membuat workbook dan worksheet
     const ws = XLSX.utils.json_to_sheet(tableData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Kehadiran");
 
-    // Mengunduh file Excel
     XLSX.writeFile(wb, "attendance_report.xlsx");
   };
 

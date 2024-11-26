@@ -3,7 +3,6 @@ import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
-import Master from "./pages/MasterDashboard.jsx";
 import "./App.css";
 import MasterDashboard from "./pages/MasterDashboard.jsx";
 import CreateEmployee from "./components/Admin/CreateEmployee";
