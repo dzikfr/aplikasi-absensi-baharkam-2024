@@ -29,7 +29,7 @@ const AttendanceEmployee = () => {
         // Filter employees by division_name
         const filteredEmployees = response.data.filter(
           (employee) =>
-            employee.employee_division.division_name === divisionName
+            employee.employee_division?.division_name === divisionName
         );
 
         setEmployees(filteredEmployees);

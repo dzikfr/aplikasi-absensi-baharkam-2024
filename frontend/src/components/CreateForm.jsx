@@ -4,7 +4,7 @@ const CreateForm = ({ formData, handleChange, handleSubmit, fields }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="rounded-none mt-20 p-6 w-80 justify-center items-center bg-gray-800"
+      className="rounded-none mt-20 p-6 w-80 justify-center items-center bg-base-200"
     >
       <h2 className="text-xl font-bold mb-4 text-center">Add Item</h2>
       {fields.map((field, index) => (

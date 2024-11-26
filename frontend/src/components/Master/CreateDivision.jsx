@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CreateForm from "../../components/CreateForm";
+import Navbar from "../Navbar";
 
 const CreateDivison = () => {
   const [formData, setFormData] = useState({
@@ -44,17 +45,27 @@ const CreateDivison = () => {
 
   const fields = [
     { label: "ID Divisi", name: "division_id", type: "number", required: true },
-    { label: "Nama Divisi", name: "division_name", type: "text", required: true },
+    {
+      label: "Nama Divisi",
+      name: "division_name",
+      type: "text",
+      required: true,
+    },
   ];
 
   return (
-    <div className="justify-center items-center flex">
-      <CreateForm
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        fields={fields}
-      />
+    <div className="flex flex-col items-center">
+      <div className="w-full">
+        <Navbar />
+      </div>
+      <div className="w-full flex flex-col items-center">
+        <CreateForm
+          formData={formData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          fields={fields}
+        />
+      </div>
     </div>
   );
 };

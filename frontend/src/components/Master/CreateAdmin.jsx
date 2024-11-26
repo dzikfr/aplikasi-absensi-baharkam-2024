@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CreateForm from "../../components/CreateForm";
+import Navbar from "../Navbar";
 
 const CreateAdmin = () => {
   const [formData, setFormData] = useState({
@@ -49,7 +50,9 @@ const CreateAdmin = () => {
   useEffect(() => {
     const fetchDivisions = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_PORT}/api/division`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_PORT}/api/division`
+        );
         setDivisions(response.data);
       } catch (error) {
         console.error("Gagal mengambil data divisi:", error);
@@ -60,8 +63,18 @@ const CreateAdmin = () => {
   }, []);
 
   const fields = [
-    { label: "Admin Username", name: "admin_username", type: "text", required: true },
-    { label: "Admin Password", name: "admin_password", type: "text", required: true },
+    {
+      label: "Admin Username",
+      name: "admin_username",
+      type: "text",
+      required: true,
+    },
+    {
+      label: "Admin Password",
+      name: "admin_password",
+      type: "text",
+      required: true,
+    },
     {
       label: "Divisi",
       name: "admin_division",
@@ -75,13 +88,18 @@ const CreateAdmin = () => {
   ];
 
   return (
-    <div className="justify-center items-center flex">
-      <CreateForm
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        fields={fields}
-      />
+    <div className="flex flex-col items-center">
+      <div className="w-full">
+        <Navbar />
+      </div>
+      <div className="w-full flex flex-col items-center">
+        <CreateForm
+          formData={formData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          fields={fields}
+        />
+      </div>
     </div>
   );
 };

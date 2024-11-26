@@ -16,7 +16,7 @@ const ReadAdmin = () => {
   const columns = [
     { header: "Admin Username", accessor: (item) => item.admin_username },
     { header: "Admin Password", accessor: (item) => item.admin_password },
-    { header: "Divisi Admin", accessor: (item) => item.admin_division.division_name },
+    { header: "Divisi Admin", accessor: (item) => item.admin_division?.division_name },
   ];
 
   const searchableFields = ["admin_username", "admin_division.division_name"];
