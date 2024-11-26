@@ -2,7 +2,6 @@ import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import Login from "./pages/Login.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import Master from "./pages/MasterDashboard.jsx";
 import "./App.css";
@@ -13,6 +12,7 @@ import CreateAdmin from "./components/Master/CreateAdmin";
 import EditEmployee from "./components/Admin/EditEmployee";
 import EditDivision from "./components/Master/EditDivision";
 import AttendanceEmployee from "./pages/AttendanceEmployee.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <LoginPage/>,
   },
   {
     path: "/admin",

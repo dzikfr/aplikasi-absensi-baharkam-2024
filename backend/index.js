@@ -2,6 +2,7 @@ const express = require('express');
 const {config} = require('dotenv');
 const cors = require('cors');
 const connectDb = require('./config/db.js');
+const authRoutes = require('./routes/authRoute');
 
 //init express
 const app = express();
@@ -29,6 +30,7 @@ app.use('/api/division', require('./routes/divisionRoute.js'));
 app.use('/api/master', require('./routes/masterRoute.js'));
 app.use('/api/admin', require('./routes/adminRoute.js'));
 app.use('/api/attendance', require('./routes/attendanceRoute.js'));
+app.use('/auth/admin', authRoutes);
 
 //port listen server app
 app.listen(process.env.PORT, () => {

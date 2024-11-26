@@ -1,5 +1,6 @@
 const express = require("express");
 const Attendance = require("../models/attendanceModel");
+const Employee = require("../models/employeeModel");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
@@ -25,21 +26,29 @@ router.get("/:employeeId/:year/:month", async (req, res) => {
         $gte: startOfMonth,
         $lt: endOfMonth,
       },
+    }).populate({
+      path: "employee_id",
+      select: "employee_name employee_rank employee_position employee_division",
+      populate: {
+        path: "employee_division",
+        select: "division_name",
+      },
     });
+
     res.status(200).json(attendances);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Server error", error: err.message });
   }
 });
 
 router.put("/bulk-update", async (req, res) => {
   try {
-    const attendanceUpdates = req.body.attendance; 
+    const attendanceUpdates = req.body.attendance;
     for (let update of attendanceUpdates) {
       await Attendance.findOneAndUpdate(
         { employee_id: update.employee_id, date: update.date },
         { status: update.status },
-        { upsert: true } 
+        { upsert: true }
       );
     }
     res.status(200).json({ message: "Absensi berhasil diperbarui" });
@@ -53,17 +62,24 @@ router.put("/bulk-update", async (req, res) => {
 router.get("/:year/:month", async (req, res) => {
   try {
     const { year, month } = req.params;
-    const startOfMonth = new Date(year, month - 1, 1); 
-    const endOfMonth = new Date(year, month, 0); 
+    const startOfMonth = new Date(year, month - 1, 1);
+    const endOfMonth = new Date(year, month, 0);
 
     const attendances = await Attendance.find({
       date: {
-        $gte: startOfMonth, 
-        $lt: endOfMonth, 
+        $gte: startOfMonth,
+        $lt: endOfMonth,
+      },
+    }).populate({
+      path: "employee_id",
+      select: "employee_name employee_rank employee_position employee_division",
+      populate: {
+        path: "employee_division",
+        select: "division_name",
       },
     });
 
-    res.status(200).json(attendances); 
+    res.status(200).json(attendances);
   } catch (err) {
     res.status(500).json({ message: "Server error", error: err.message });
   }

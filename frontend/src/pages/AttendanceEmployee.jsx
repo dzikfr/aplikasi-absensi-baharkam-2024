@@ -15,19 +15,29 @@ const AttendanceEmployee = () => {
     0
   ).getDate();
 
+  // Load division_name from localStorage
+  const divisionName = localStorage.getItem("division_name");
+
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_PORT}/api/employee`
         );
-        setEmployees(response.data);
+
+        // Filter employees by division_name
+        const filteredEmployees = response.data.filter(
+          (employee) =>
+            employee.employee_division.division_name === divisionName
+        );
+
+        setEmployees(filteredEmployees);
       } catch (err) {
         setError(err.message);
       }
     };
     fetchEmployees();
-  }, []);
+  }, [divisionName]);
 
   const fetchAttendanceData = async (employeeId, year, month) => {
     try {
@@ -66,7 +76,6 @@ const AttendanceEmployee = () => {
       for (const employeeId in attendanceData) {
         const statusData = attendanceData[employeeId];
         for (const day in statusData) {
-
           const date = new Date(
             new Date().getFullYear(),
             new Date().getMonth(),
@@ -183,8 +192,7 @@ const AttendanceEmployee = () => {
             {Array.from({ length: currentDay }).map((_, index) => (
               <th key={index + 1}>{index + 1}</th>
             ))}
-            <th className="bg-base-300">Persentase Kehadiran</th>{" "}
-            {/* Kolom status */}
+            <th className="bg-base-300">Persentase Kehadiran</th>
           </tr>
         </thead>
         <tbody>

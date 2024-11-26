@@ -20,22 +20,6 @@ const registerAdmin = async (req, res) => {
     }
 };
 
-const loginAdmin = async (req, res) => {
-    try {
-        const { admin_username, admin_password } = req.body;
-        const admin = await Admin.findOne({ admin_username });
-        if (!admin) {
-            return res.status(404).json({ message: "Admin not found" });
-        }
-        if (admin_password !== admin.admin_password) {
-            return res.status(401).json({ message: "Invalid password" });
-        }
-        res.status(200).json({ message: "Login successful", data: admin });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 const getAllAdmins = async (req, res) => {
     try {
         const admins = await Admin.find().populate("admin_division");
@@ -83,7 +67,6 @@ const deleteAdmin = async (req, res) => {
 
 module.exports = {
     registerAdmin,
-    loginAdmin,
     getAllAdmins,
     getAdminById,
     updateAdmin,
