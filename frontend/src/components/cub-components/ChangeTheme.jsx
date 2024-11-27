@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from "react";
 
 const ChangeTheme = () => {
-  const [theme, setTheme] = useState("light"); // Default theme
+  const [theme, setTheme] = useState("light"); 
 
-  // Ambil tema dari localStorage saat aplikasi dimuat
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") || "light";
     setTheme(savedTheme);
-    document.documentElement.setAttribute("data-theme", savedTheme); // Terapkan tema ke html
+    document.documentElement.setAttribute("data-theme", savedTheme); 
   }, []);
 
-  // Fungsi untuk mengubah tema
   const handleThemeChange = (newTheme) => {
     setTheme(newTheme);
-    localStorage.setItem("theme", newTheme); // Simpan tema ke localStorage
-    document.documentElement.setAttribute("data-theme", newTheme); // Terapkan tema ke html
+    localStorage.setItem("theme", newTheme); 
+    document.documentElement.setAttribute("data-theme", newTheme); 
   };
 
   return (

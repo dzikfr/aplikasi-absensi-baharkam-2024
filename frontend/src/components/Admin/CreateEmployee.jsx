@@ -52,7 +52,9 @@ const CreateEmployee = () => {
   useEffect(() => {
     const fetchDivisions = async () => {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_BACKEND_PORT}/api/division`);
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_PORT}/api/division`
+        );
         setDivisions(response.data);
       } catch (error) {
         console.error("Gagal mengambil data divisi:", error);
@@ -66,7 +68,12 @@ const CreateEmployee = () => {
     { label: "NIP", name: "employee_nrp", type: "number", required: true },
     { label: "Nama", name: "employee_name", type: "text", required: true },
     { label: "Pangkat", name: "employee_rank", type: "text", required: true },
-    { label: "Jabatan", name: "employee_position", type: "text", required: true },
+    {
+      label: "Jabatan",
+      name: "employee_position",
+      type: "text",
+      required: true,
+    },
     {
       label: "Divisi",
       name: "employee_division",
@@ -80,27 +87,19 @@ const CreateEmployee = () => {
   ];
 
   return (
-    // <div className="justify-center items-center flex">
-    //   <CreateForm
-    //     formData={formData}
-    //     handleChange={handleChange}
-    //     handleSubmit={handleSubmit}
-    //     fields={fields}
-    //   />
-    // </div>
     <div className="flex flex-col items-center">
-    <div className="w-full">
-      <Navbar />
+      <div className="w-full">
+        <Navbar />
+      </div>
+      <div className="w-full flex flex-col items-center">
+        <CreateForm
+          formData={formData}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          fields={fields}
+        />
+      </div>
     </div>
-    <div className="w-full flex flex-col items-center">
-      <CreateForm
-        formData={formData}
-        handleChange={handleChange}
-        handleSubmit={handleSubmit}
-        fields={fields}
-      />
-    </div>
-  </div>
   );
 };
 

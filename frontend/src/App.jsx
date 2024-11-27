@@ -13,6 +13,8 @@ import CreateAdmin from "./components/Master/CreateAdmin";
 import EditDivision from "./components/Master/EditDivision";
 import CreateDivision from "./components/Master/CreateDivision";
 import EditAdmin from "./components/Master/EditAdmin";
+import CreateLeave from "./components/Admin/CreateLeave";
+import EditLeave from "./components/Admin/EditLeave";
 
 const App = () => {
   return (
@@ -51,10 +53,28 @@ const App = () => {
         />
 
         <Route
+          path="/admin/create/leave"
+          element={
+            <ProtectedRoute>
+              <CreateLeave/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/admin/employee/edit/:id"
           element={
             <ProtectedRoute>
               <EditEmployee/>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/leave/edit/:id"
+          element={
+            <ProtectedRoute>
+              <EditLeave/>
             </ProtectedRoute>
           }
         />

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import ReadEmployee from "../components/Admin/ReadEmployee";
 import ReadAttendance from "../components/Admin/ReadAttendance";
+import ReadLeave from "../components/Admin/ReadLeave";
 
 const Sidebar = ({ setActiveComponent }) => {
   return (
@@ -37,7 +38,7 @@ const MainContent = ({ activeComponent }) => {
     case "kehadiran":
       return <ReadAttendance/>;
     case "cuti":
-      return <ReadOrder/>;
+      return <ReadLeave/>;
     default:
       return <div className="p-4">Select a menu</div>;
   }
