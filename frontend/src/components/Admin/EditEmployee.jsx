@@ -68,15 +68,15 @@ const EditEmployee = () => {
     <div className="flex justify-center items-center min-h-screen">
       <form
         onSubmit={handleSubmit}
-        className="rounded-lg bg-gray-800 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md"
+        className="rounded-lg bg-base-200 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md my-10"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">Edit Pegawai</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-base">Edit Pegawai</h2>
         
         <EditForm label="NIP" value={nip} onChange={(e) => setNip(e.target.value)} required />
         <EditForm label="Nama" value={name} onChange={(e) => setName(e.target.value)} required />
         
         <div className="form-control mb-4">
-          <label className="label text-white">Divisi:</label>
+          <label className="label text-base">Divisi:</label>
           <select
             value={division}
             onChange={(e) => setDivision(e.target.value)}
@@ -96,7 +96,7 @@ const EditEmployee = () => {
         <EditForm label="Jabatan" value={position} onChange={(e) => setPosition(e.target.value)} required />
 
         <div className="form-control mt-6">
-          <button type="submit" className="btn btn-primary w-full">Simpan</button>
+          <button type="submit" className="btn btn-base w-full">Simpan</button>
         </div>
       </form>
     </div>

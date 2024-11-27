@@ -66,9 +66,9 @@ const EditAdmin = () => {
     <div className="flex justify-center items-center min-h-screen">
       <form
         onSubmit={handleSubmit}
-        className="rounded-lg bg-gray-800 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md"
+        className="rounded-lg bg-base-200 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">
+        <h2 className="text-2xl font-bold mb-6 text-center text-base">
           Edit Admin
         </h2>
 
@@ -82,7 +82,7 @@ const EditAdmin = () => {
           label="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          type="password" // Add type="password" for password masking
+          type="password"
           required
         />
 
@@ -110,7 +110,7 @@ const EditAdmin = () => {
         <div className="form-control mt-6">
           <button
             type="submit"
-            className="btn btn-primary w-full"
+            className="btn btn-base w-full"
             disabled={loading}
           >
             {loading ? "Loading..." : "Simpan"}

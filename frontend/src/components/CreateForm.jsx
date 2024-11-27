@@ -37,7 +37,7 @@ const CreateForm = ({ formData, handleChange, handleSubmit, fields }) => {
           )}
         </div>
       ))}
-      <button type="submit" className="btn">
+      <button type="submit" className="btn border-inherit">
         Simpan
       </button>
     </form>

@@ -49,9 +49,9 @@ const EditDivision = () => {
     <div className="flex justify-center items-center min-h-screen">
       <form
         onSubmit={handleSubmit}
-        className="rounded-lg bg-gray-800 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md"
+        className="rounded-lg bg-base-200 shadow-lg p-6 sm:p-8 w-full sm:w-96 max-w-md"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center text-white">
+        <h2 className="text-2xl font-bold mb-6 text-center text-baase">
           Edit Divisi
         </h2>
 
@@ -69,7 +69,7 @@ const EditDivision = () => {
         />
 
         <div className="form-control mt-6">
-          <button type="submit" className="btn btn-primary w-full">
+          <button type="submit" className="btn btn-base w-full">
             Simpan
           </button>
         </div>

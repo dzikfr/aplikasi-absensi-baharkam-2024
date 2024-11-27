@@ -1,6 +1,22 @@
 import React, { useEffect, useState } from "react";
 
 const ChangeTheme = () => {
+  const [theme, setTheme] = useState("light"); // Default theme
+
+  // Ambil tema dari localStorage saat aplikasi dimuat
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") || "light";
+    setTheme(savedTheme);
+    document.documentElement.setAttribute("data-theme", savedTheme); // Terapkan tema ke html
+  }, []);
+
+  // Fungsi untuk mengubah tema
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme); // Simpan tema ke localStorage
+    document.documentElement.setAttribute("data-theme", newTheme); // Terapkan tema ke html
+  };
+
   return (
     <div>
       <div className="dropdown dropdown-left">
@@ -20,60 +36,22 @@ const ChangeTheme = () => {
           tabIndex={0}
           className="dropdown-content bg-base-300 rounded-box z-[1] w-52 p-2 shadow-2xl z-99"
         >
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Light"
-              value="light"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Retro"
-              value="retro"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Cyberpunk"
-              value="cyberpunk"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Valentine"
-              value="valentine"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Aqua"
-              value="aqua"
-            />
-          </li>
-          <li>
-            <input
-              type="radio"
-              name="theme-dropdown"
-              className="theme-controller btn btn-sm btn-block btn-ghost justify-start"
-              aria-label="Dark"
-              value="dark"
-            />
-          </li>
+          {["light", "retro", "cyberpunk", "valentine", "aqua", "dark"].map(
+            (item) => (
+              <li key={item}>
+                <label className="btn btn-sm btn-block btn-ghost justify-start">
+                  <input
+                    type="radio"
+                    name="theme-dropdown"
+                    value={item}
+                    checked={theme === item}
+                    onChange={() => handleThemeChange(item)}
+                  />
+                  {item.charAt(0).toUpperCase() + item.slice(1)}
+                </label>
+              </li>
+            )
+          )}
         </ul>
       </div>
     </div>

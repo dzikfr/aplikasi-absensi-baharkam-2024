@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CreateForm from "../../components/CreateForm";
+import Navbar from "../Navbar";
 
 const CreateEmployee = () => {
   const [formData, setFormData] = useState({
@@ -79,7 +80,19 @@ const CreateEmployee = () => {
   ];
 
   return (
-    <div className="justify-center items-center flex">
+    // <div className="justify-center items-center flex">
+    //   <CreateForm
+    //     formData={formData}
+    //     handleChange={handleChange}
+    //     handleSubmit={handleSubmit}
+    //     fields={fields}
+    //   />
+    // </div>
+    <div className="flex flex-col items-center">
+    <div className="w-full">
+      <Navbar />
+    </div>
+    <div className="w-full flex flex-col items-center">
       <CreateForm
         formData={formData}
         handleChange={handleChange}
@@ -87,6 +100,7 @@ const CreateEmployee = () => {
         fields={fields}
       />
     </div>
+  </div>
   );
 };
 
